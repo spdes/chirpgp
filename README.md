@@ -1,4 +1,5 @@
 # Probabilistic chirp instantaneous frequency estimation using Gaussian processes
+[![UnitTest](https://github.com/spdes/chirpgp/actions/workflows/unittest.yml/badge.svg)](https://github.com/spdes/chirpgp/actions/workflows/unittest.yml)
 
 Companion implementation of the paper "Probabilistic Estimation of Chirp Instantaneous Frequency Using Gaussian
 Processes".
