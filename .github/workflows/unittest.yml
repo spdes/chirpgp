@@ -6,11 +6,13 @@ on:
     paths:
       - 'chirpgp/**'
       - 'test/**'
+      - '.github/workflows/**'
   pull_request:
     branches: [ main ]
     paths:
       - 'chirpgp/**'
       - 'test/**'
+      - '.github/workflows/**'
   workflow_dispatch:
     inputs:
       name:
@@ -48,6 +50,7 @@ jobs:
           flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
       - name: Do the unit tests
         run: |
+          pip install pytest
           pytest test/
       - name: Logging
         run: |
