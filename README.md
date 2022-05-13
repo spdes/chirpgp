@@ -1,10 +1,11 @@
 # Probabilistic chirp instantaneous frequency estimation using Gaussian processes
 [![UnitTest](https://github.com/spdes/chirpgp/actions/workflows/unittest.yml/badge.svg)](https://github.com/spdes/chirpgp/actions/workflows/unittest.yml)
 
-Companion implementation of the paper "Probabilistic Estimation of Chirp Instantaneous Frequency Using Gaussian
-Processes".
+Companion implementation of the paper "Probabilistic Estimation of Chirp Instantaneous Frequency Using Gaussian Processes".
 
-Please cite as follows (under review) to use the codes.
+The preprint is available at [https://arxiv.org/abs/*](https://arxiv.org/abs/*).
+
+Please cite as follows to use the codes.
 
 ```bibtex
 @article{ZhaoZheng2022Chirp,
@@ -27,13 +28,9 @@ Y  = sin ⎜ϕ  + 2 π ⌡ f(s) ds⎟ + ξ ,  ξ ~ N(0, Ξ).
 
 ```
 
-In the equation above, `ϕ_0` stands for the initial phase, `ξ_k` is a Gaussian noise, `Y_k` stands for the noisy chirp
-measurement at time `t_k`, and `f` is the instantaneous frequency function that we aim to estimate. Importantly, we
-would like to estimate `f` in terms of posterior distribution.
+In the equation above, `ϕ_0` stands for the initial phase, `ξ_k` is a Gaussian noise, `Y_k` stands for the noisy chirp measurement at time `t_k`, and `f` is the instantaneous frequency function that we aim to estimate. Importantly, we would like to estimate `f` in terms of posterior distribution.
 
-The idea is to put priors on both `f` and the chirp signal jointly by using a class of stochastic differential
-equations. This leads to a non-linear state-space model in which we can estimate the posterior distribution by using
-stochastic filters and smoothers (e.g., EKFS, UKFS).
+The idea is to put priors on both `f` and the chirp signal jointly by using a class of non-linear stochastic differential equations -- which gives some condtional Gaussian processes. This leads to a non-linear state-space model in which we can estimate the posterior distribution by using stochastic filters and smoothers (e.g., EKFS, UKFS).
 
 To have a sense how well this method works, please see the following example figure taken from the paper.
 
