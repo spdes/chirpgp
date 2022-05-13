@@ -25,7 +25,6 @@ Consider a chirp signal of the form
          ⎜         ⌠        ⎟     
 Y  = sin ⎜ϕ  + 2 π ⌡ f(s) ds⎟ + ξ ,  ξ ~ N(0, Ξ).
  k       ⎝ 0       0        ⎠    k    k        k
-
 ```
 
 In the equation above, `ϕ_0` stands for the initial phase, `ξ_k` is a Gaussian noise, `Y_k` stands for the noisy chirp measurement at time `t_k`, and `f` is the instantaneous frequency function that we aim to estimate. Importantly, we would like to estimate `f` in terms of posterior distribution.
