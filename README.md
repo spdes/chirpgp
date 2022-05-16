@@ -33,7 +33,7 @@ The idea is to put priors on both `f` and the chirp signal jointly by using a cl
 
 To have a sense how well this method works, please see the following example figure taken from the paper.
 
-![](./docs/source/figs/example.png "Instantaneous frequency estimation")
+![](./docs/source/figs/example.gif "Instantaneous frequency estimation")
 
 # Installation
 
