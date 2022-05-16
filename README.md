@@ -3,14 +3,14 @@
 
 Companion implementation of the paper "Probabilistic Estimation of Chirp Instantaneous Frequency Using Gaussian Processes".
 
-The preprint is available at [https://arxiv.org/abs/*](https://arxiv.org/abs/*).
+The preprint is available at [http://arxiv.org/abs/2205.06306](http://arxiv.org/abs/2205.06306).
 
 Please cite as follows to use the codes.
 
 ```bibtex
 @article{ZhaoZheng2022Chirp,
 	title = {Probabilistic Estimation of Chirp Instantaneous Frequency Using {G}aussian Processes},
-	journal = {arXiv preprint arXiv:****.*****},
+	journal = {arXiv preprint arXiv:2205.06306},
 	author = {Zheng Zhao and Simo S\"{a}rkk\"{a} and Jens Sj\"{o}lund and Thomas B. Sch\"{o}n},
 	year = {2022}
 }
