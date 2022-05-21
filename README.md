@@ -20,13 +20,6 @@ Please cite as follows to use the codes.
 
 Consider a chirp signal of the form
 
-```
-         ⎛         tk       ⎞     
-         ⎜         ⌠        ⎟     
-Y  = sin ⎜ϕ  + 2 π ⌡ f(s) ds⎟ + ξ ,  ξ ~ N(0, Ξ).
- k       ⎝ 0       0        ⎠    k    k        k
-```
-
 $$
 Y_k = \sin\biggl( \phi_0 + 2 \, \pi \int^{t_k}_0 f(s) \, \mathbb{d}s \biggr) + \xi_k, \quad \xi_k \sim \mathrm{N}(0, \Xi_k).
 $$
