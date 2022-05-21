@@ -21,7 +21,7 @@ Please cite as follows to use the codes.
 Consider a chirp signal of the form
 
 $$
-Y_k = \sin\biggl( \phi_0 + 2 \, \pi \int^{t_k}_0 f(s) \, \mathbb{d}s \biggr) + \xi_k, \quad \xi_k \sim \mathrm{N}(0, \Xi_k).
+Y_k = \sin\biggl( \phi_0 + 2 \, \pi \int^{t_k}_0 f(s) \\, \mathrm{d}s \biggr) + \xi_k, \quad \xi_k \sim \mathrm{N}(0, \Xi_k).
 $$
 
 In the equation above, $\phi_0$ stands for the initial phase, $\xi_k$ is a Gaussian noise, $Y_k$ stands for the noisy chirp measurement at time $t_k$, and $f$ is the instantaneous frequency function that we aim to estimate. Importantly, we would like to estimate $f$ in terms of posterior distribution.
