@@ -27,9 +27,13 @@ Y  = sin ⎜ϕ  + 2 π ⌡ f(s) ds⎟ + ξ ,  ξ ~ N(0, Ξ).
  k       ⎝ 0       0        ⎠    k    k        k
 ```
 
-In the equation above, `ϕ_0` stands for the initial phase, `ξ_k` is a Gaussian noise, `Y_k` stands for the noisy chirp measurement at time `t_k`, and `f` is the instantaneous frequency function that we aim to estimate. Importantly, we would like to estimate `f` in terms of posterior distribution.
+$$
+Y_k = \sin\biggl( \phi_0 + 2 \, \pi \int^{t_k}_0 f(s) \, \mathbb{d}s \biggr) + \xi_k, \quad \xi_k \sim \mathrm{N}(0, \Xi_k).
+$$
 
-The idea is to put priors on both `f` and the chirp signal jointly by using a class of non-linear stochastic differential equations -- which gives some condtional Gaussian processes. This leads to a non-linear state-space model in which we can estimate the posterior distribution by using stochastic filters and smoothers (e.g., EKFS, UKFS).
+In the equation above, $\phi_0$ stands for the initial phase, $\xi_k$ is a Gaussian noise, $Y_k$ stands for the noisy chirp measurement at time $t_k$, and $f$ is the instantaneous frequency function that we aim to estimate. Importantly, we would like to estimate $f$ in terms of posterior distribution.
+
+The idea is to put priors on both $f$ and the chirp signal jointly by using a class of non-linear stochastic differential equations -- which gives some condtional Gaussian processes. This leads to a non-linear state-space model in which we can estimate the posterior distribution by using stochastic filters and smoothers (e.g., EKFS, UKFS).
 
 To have a sense how well this method works, please see the following example figure taken from the paper.
 
