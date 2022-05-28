@@ -6,7 +6,7 @@ import jax.scipy.optimize
 import matplotlib.pyplot as plt
 from chirpgp.models import g, g_inv, build_chirp_model
 from chirpgp.filters_smoothers import cd_ekf, cd_eks
-from chirpgp.quadratures import gaussian_expectation, SigmaPoints
+from chirpgp.quadratures import gaussian_expectation
 from chirpgp.toymodels import gen_chirp, meow_freq, constant_mag, damped_exp_mag, random_ou_mag
 from chirpgp.tools import rmse
 from jax.config import config
