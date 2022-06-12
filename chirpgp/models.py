@@ -277,7 +277,7 @@ def disc_chirp_tme(lam: Union[float, jndarray],
     drift, dispersion, _, _, _ = model_chirp(lam, b, ell, sigma, 1.)
 
     def m_and_cov(u: jndarray, dt: float) -> Tuple[jndarray, jndarray]:
-        return tme.mean_and_cov(u, dt, drift, dispersion, jnp.eye(4), order)
+        return tme.mean_and_cov(u, dt, drift, dispersion, order)
 
     return m_and_cov
 

@@ -13,7 +13,6 @@ dim_x = 3
 kappa = 10.
 lam = 28.
 mu = 2.
-Qw = jnp.eye(3)
 H = jnp.array([1., 0., 0.])
 R = 2.
 
@@ -31,7 +30,7 @@ def dispersion(_):
 @jax.jit
 def tme_m_cov(u, dt):
     return tme.mean_and_cov(x=u, dt=dt,
-                            a=drift, b=dispersion, Qw=Qw, order=2)
+                            a=drift, b=dispersion, order=2)
 
 
 # Trigger

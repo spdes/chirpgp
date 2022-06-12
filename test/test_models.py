@@ -105,7 +105,7 @@ class TestModels:
         drift, dispersion, _, _, _ = model_chirp(lam, b, ell, sigma, 0.1)
 
         m_and_cov_lcd = jax.jit(disc_chirp_lcd(lam, b, ell, sigma))
-        m_and_cov_tme = jax.jit(lambda u, dt: tme.mean_and_cov(u, dt, drift, dispersion, jnp.eye(4), order=3))
+        m_and_cov_tme = jax.jit(lambda u, dt: tme.mean_and_cov(u, dt, drift, dispersion, order=3))
 
         key = jax.random.PRNGKey(666)
         keys = jax.random.split(key, num=5)
