@@ -3,4 +3,4 @@ scipy
 jax
 jaxlib
 jaxopt
-tme
+tme>=0.1.4
