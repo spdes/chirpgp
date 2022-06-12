@@ -29,8 +29,7 @@ def dispersion(_):
 
 @jax.jit
 def tme_m_cov(u, dt):
-    return tme.mean_and_cov(x=u, dt=dt,
-                            a=drift, b=dispersion, order=2)
+    return tme.mean_and_cov(u, dt, drift, dispersion, order=2)
 
 
 # Trigger
