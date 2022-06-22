@@ -54,7 +54,6 @@ class TestFiltersSmoothers:
 
             return jnp.asarray(xx), jnp.asarray(yy)
 
-        @jax.jit
         def m_and_cov(u, _):
             return F @ u, Sigma
 
