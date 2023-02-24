@@ -1,5 +1,5 @@
 """
-Load results from .npz and .mat files and print the statistics of RMSEs.
+This generated Table 1 in the paper.
 """
 import scipy
 import numpy as np

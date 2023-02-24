@@ -1,12 +1,5 @@
 """
-Plot some demonstrative estimation results.
-
-                   const        damped       OU
-GHFS (chirp)
-GHFS (IF)
-GHFS [24] (IF)
-Spectrogram (IF)
-ANF (IF)
+This generated Figure 6 in the paper.
 """
 import math
 import jax

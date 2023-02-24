@@ -1,5 +1,5 @@
 """
-Gravitational wave and its frequency estimation.
+Estimate gravitational wave and its instantaneous frequency.
 """
 import jax
 import jaxopt
@@ -13,7 +13,7 @@ from jax.config import config
 
 config.update("jax_enable_x64", True)
 
-# Load gravitational wave strain data
+# Load gravitational wave strain data. Please download them by yourself, see README.md
 ts, ys = jnp.asarray(np.genfromtxt('./data/fig1-observed-H.txt').T)
 ts_true_gw, true_gw = jnp.asarray(np.genfromtxt('./data/fig1-waveform-H.txt').T)
 dt = jnp.diff(ts)[0]

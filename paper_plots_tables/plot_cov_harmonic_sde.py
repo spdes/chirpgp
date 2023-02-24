@@ -1,5 +1,5 @@
 """
-Plot the covariance function of harmonic SDE
+Plot the covariance function of harmonic SDE. This generated Figure 2 in the paper.
 """
 import jax.numpy as jnp
 import matplotlib.pyplot as plt

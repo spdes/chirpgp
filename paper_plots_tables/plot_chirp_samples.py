@@ -1,5 +1,5 @@
 """
-Plot samples drawn from the chirp prior.
+Plot samples drawn from the chirp prior. This generated Figure 4 in the paper.
 """
 import jax
 import jax.numpy as jnp
