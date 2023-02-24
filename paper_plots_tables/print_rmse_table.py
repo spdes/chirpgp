@@ -87,7 +87,6 @@ axs[2].annotate(r'$\alpha(t)$ random', xy=(8.5, 7), xycoords='data',
                 fontsize=18, bbox=dict(facecolor='none', edgecolor='gray', boxstyle='round'))
 
 plt.tight_layout(pad=0.1)
-# plt.savefig('/home/zgbkdlm/Papers/chirp-estimation-paper/figs/rmse-statistics.pdf')
 plt.show()
 
 # Print and plot for harmonic chirp
