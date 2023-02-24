@@ -22,8 +22,10 @@ fi
 
 python ./jobs/ekfs_mle.py > ./logs/ekfs_mle.log &
 python ./jobs/ghfs_mle.py > ./logs/ghfs_mle.log &
+python ./jobs/ckfs_mle.py > ./logs/ckfs_mle.log &
 python ./jobs/cd_ekfs_mle.py > ./logs/cd_ekfs_mle.log &
 python ./jobs/cd_ghfs_mle.py > ./logs/cd_ghfs_mle.log &
+python ./jobs/cd_ckfs_mle.py > ./logs/cd_ckfs_mle.log &
 python ./jobs/lascala_ekfs_mle.py > ./logs/lascala_ekfs_mle.log &
 python ./jobs/lascala_ghfs_mle.py > ./logs/lascala_ghfs_mle.log &
 wait

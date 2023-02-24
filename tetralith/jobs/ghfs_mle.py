@@ -50,30 +50,36 @@ for mc in range(num_mcs):
         opt_params = g(opt_vals)
         print(f'Parameter learnt: {opt_params}. Convergence: {opt_state}')
 
-        _, _, m_and_cov, m0, P0, H = build_chirp_model(opt_params)
+        if opt_state.success:
+
+            _, _, m_and_cov, m0, P0, H = build_chirp_model(opt_params)
 
 
-        @jax.jit
-        def filtering(measurements):
-            return sgp_filter(m_and_cov, sgps, H, Xi, m0, P0, dt, measurements)
+            @jax.jit
+            def filtering(measurements):
+                return sgp_filter(m_and_cov, sgps, H, Xi, m0, P0, dt, measurements)
 
 
-        @jax.jit
-        def smoothing(mfs, Pfs):
-            return sgp_smoother(m_and_cov, sgps, mfs, Pfs, dt)
+            @jax.jit
+            def smoothing(mfs, Pfs):
+                return sgp_smoother(m_and_cov, sgps, mfs, Pfs, dt)
 
 
-        # Trigger jit
-        _dummy = filtering(jnp.ones((2,)))
-        smoothing(_dummy[0], _dummy[1])
+            # Trigger jit
+            _dummy = filtering(jnp.ones((2,)))
+            smoothing(_dummy[0], _dummy[1])
 
-        filtering_results = filtering(ys)
-        smoothing_results = smoothing(filtering_results[0], filtering_results[1])
+            filtering_results = filtering(ys)
+            smoothing_results = smoothing(filtering_results[0], filtering_results[1])
 
-        estimated_freqs_mean = gaussian_expectation(ms=smoothing_results[0][:, 2],
-                                                    chol_Ps=jnp.sqrt(smoothing_results[1][:, 2, 2]),
-                                                    func=g, force_shape=True)[:, 0]
-        rmse = chirpgp.tools.rmse(true_freq_func(ts), estimated_freqs_mean)
+            estimated_freqs_mean = gaussian_expectation(ms=smoothing_results[0][:, 2],
+                                                        chol_Ps=jnp.sqrt(smoothing_results[1][:, 2, 2]),
+                                                        func=g, force_shape=True)[:, 0]
+            rmse = chirpgp.tools.rmse(true_freq_func(ts), estimated_freqs_mean)
+        else:
+            print(f'This MC {mc} run with {mag} is divergent.')
+            smoothing_results = (np.nan, np.nan)
+            rmse = np.nan
 
         file_name = f'./results/ghfs_mle_{name}_{mc}.npz'
         np.savez(file_name, smoothing_mean=smoothing_results[0], smoothing_cov=smoothing_results[1], rmse=rmse)

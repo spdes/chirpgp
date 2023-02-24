@@ -71,8 +71,9 @@ for mag in [constant_mag(1.),
 
 
     # Trigger jit
-    _dummy = filtering(jnp.ones((2,)))
+    _dummy = filtering(jnp.ones((2, )))
     smoothing(_dummy[0], _dummy[1])
+
 
     filtering_results = filtering(ys)
     smoothing_results = smoothing(filtering_results[0], filtering_results[1])

@@ -68,7 +68,6 @@ for mag in [constant_mag(1.),
     def smoothing(mfs, Pfs):
         return cd_sgp_smoother(drift, dispersion(jnp.eye(4)), sgps, mfs, Pfs, dt)
 
-
     # Trigger jit
     _dummy = filtering(jnp.ones((2,)))
     smoothing(_dummy[0], _dummy[1])

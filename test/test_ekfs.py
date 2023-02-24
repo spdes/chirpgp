@@ -4,6 +4,7 @@ import jax.numpy as jnp
 from chirpgp.filters_smoothers import ekf, eks, cd_ekf, cd_eks
 from chirpgp.tools import simulate_sde
 import tme.base_jax as tme
+# import matplotlib.pyplot as plt
 import numpy.testing as npt
 from jax.config import config
 
@@ -13,6 +14,7 @@ dim_x = 3
 kappa = 10.
 lam = 28.
 mu = 2.
+Qw = jnp.eye(3)
 H = jnp.array([1., 0., 0.])
 R = 2.
 
@@ -29,7 +31,8 @@ def dispersion(_):
 
 @jax.jit
 def tme_m_cov(u, dt):
-    return tme.mean_and_cov(u, dt, drift, dispersion, order=2)
+    return tme.mean_and_cov(x=u, dt=dt,
+                            drift=drift, dispersion=dispersion, order=2)
 
 
 # Trigger

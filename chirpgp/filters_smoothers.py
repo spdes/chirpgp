@@ -26,6 +26,7 @@ from functools import partial
 __all__ = ['kf',
            'rts',
            'ekf',
+           'ekf_for_kpt',
            'eks',
            'cd_ekf',
            'cd_eks',
@@ -54,7 +55,7 @@ def _linear_predict(F: jnp.ndarray, Sigma: jnp.ndarray,
 def _linear_update(mp: jnp.ndarray, Pp: jnp.ndarray,
                    H: jnp.ndarray, Xi: float, y: float) -> Tuple[jnp.ndarray, jnp.ndarray, float]:
     """Update for linear Gaussian measurement models
-    (note that here the dimension of the measurement variable is assumed to be 1).
+    (note that here the dim of measurement variable is assumed to be 1).
 
     Returns
     -------
@@ -67,11 +68,11 @@ def _linear_update(mp: jnp.ndarray, Pp: jnp.ndarray,
     return mp + K * (y - pred), Pp - jnp.outer(K, K) * S, -_log_normal_pdf(y, pred, S)
 
 
-def _gaussian_smoother_shared(DT: jnp.ndarray,
+def _gaussian_smoother_common(DT: jnp.ndarray,
                               mf: jnp.ndarray, Pf: jnp.ndarray,
                               mp: jnp.ndarray, Pp: jnp.ndarray,
                               ms: jnp.ndarray, Ps: jnp.ndarray) -> Tuple[jnp.ndarray, jnp.ndarray]:
-    """Shared procedure for Gaussian smoothers as per Equation 2.25 in Zhao 2021.
+    """Common procedure for Gaussian smoothers as per Equation 2.25 in Zhao 2021.
 
     Notes
     -----
@@ -120,7 +121,7 @@ def _sgp_prediction(sgps: SigmaPoints,
     return mp, Pp, chi, evals_of_m
 
 
-def _cd_sgp_shared(sgps: SigmaPoints,
+def _cd_sgp_common(sgps: SigmaPoints,
                    vectorised_drift: Callable[[jnp.ndarray], jnp.ndarray],
                    dispersion_const: jnp.ndarray,
                    m: jnp.ndarray, P: jnp.ndarray) -> Tuple[jnp.ndarray, jnp.ndarray]:
@@ -208,7 +209,7 @@ def rts(F: jnp.ndarray, Sigma: jnp.ndarray,
         ms, Ps = carry
         mf, Pf = elem
 
-        ms, Ps = _gaussian_smoother_shared(F @ Pf,
+        ms, Ps = _gaussian_smoother_common(F @ Pf,
                                            mf, Pf,
                                            F @ mf, F @ Pf @ F.T + Sigma,
                                            ms, Ps)
@@ -263,6 +264,56 @@ def ekf(cond_m_cov: Callable[[jnp.ndarray, float], Tuple[jnp.ndarray, jnp.ndarra
     return mfs, Pfs, n_ell
 
 
+def ekf_for_kpt(F: jnp.ndarray, Sigma: jnp.ndarray,
+                h: Callable[[jnp.ndarray], jnp.ndarray], Xi: float,
+                m0: jnp.ndarray, P0: jnp.ndarray,
+                dt: float, ys: jnp.ndarray) -> Tuple[jnp.ndarray, jnp.ndarray, jnp.ndarray]:
+    """Ad-hoc extended Kalman filter for the KPT model.
+
+    Parameters
+    ----------
+    F : jnp.ndarray (d, d)
+        State transition mean matrix.
+    Sigma : jnp.ndarray (d, d)
+        State transition covariance.
+    h : Callable jnp.ndarray (d, ) -> jnp.ndarray ()
+        Measurement function (for 1d measurement).
+    Xi : float
+        Measurement variance.
+    m0 : jnp.ndarray (d, )
+        Initial mean.
+    P0 : jnp.ndarray (d, d)
+        Initial covariance.
+    dt : float
+        Time interval.
+    ys : jnp.ndarray (T, )
+        Measurements.
+
+    Returns
+    -------
+    jnp.ndarray, jnp.ndarray, jnp.ndarray
+        Filtering posterior means and covariances, and negative log likelihoods.
+    """
+
+    def scan_body(carry, elem):
+        mf, Pf, n_ell = carry
+        y = elem
+
+        mp, Pp = _linear_predict(F, Sigma, mf, Pf)
+
+        H = jax.jacfwd(h)(mp)
+        S = H @ Pp @ H.T + Xi
+        K = Pp @ H.T / S
+        pred = h(mp)
+        mf = mp + K * (y - pred)
+        Pf = Pp - jnp.outer(K, K) * S
+        n_ell = n_ell -_log_normal_pdf(y, pred, S)
+        return (mf, Pf, n_ell), (mf, Pf, n_ell)
+
+    _, (mfs, Pfs, n_ell) = jax.lax.scan(scan_body, (m0, P0, 0.), ys)
+    return mfs, Pfs, n_ell
+
+
 def eks(cond_m_cov: Callable[[jnp.ndarray, float], Tuple[jnp.ndarray, jnp.ndarray]],
         mfs: jnp.ndarray, Pfs: jnp.ndarray, dt: float) -> Tuple[jnp.ndarray, jnp.ndarray]:
     """Extended Kalman smoother for non-linear dynamical models.
@@ -291,7 +342,7 @@ def eks(cond_m_cov: Callable[[jnp.ndarray, float], Tuple[jnp.ndarray, jnp.ndarra
         jac_F = jax.jacfwd(lambda u: cond_m_cov(u, dt)[0], argnums=0)(mf)
         mp, Sigma = cond_m_cov(mf, dt)
         Pp = jac_F @ Pf @ jac_F.T + Sigma
-        ms, Ps = _gaussian_smoother_shared(jac_F @ Pf, mf, Pf, mp, Pp, ms, Ps)
+        ms, Ps = _gaussian_smoother_common(jac_F @ Pf, mf, Pf, mp, Pp, ms, Ps)
         return (ms, Ps), (ms, Ps)
 
     _, (mss, Pss) = jax.lax.scan(scan_body, (mfs[-1], Pfs[-1]), (mfs[:-1], Pfs[:-1]), reverse=True)
@@ -473,7 +524,7 @@ def sgp_smoother(cond_m_cov: Callable[[jnp.ndarray, float], Tuple[jnp.ndarray, j
         mp, Pp, chi, evals_of_m = _sgp_prediction(sgps, vectorised_cond_m_cov, dt, mf, Pf)
         D = sgps.expectation(_vectorised_outer(chi, evals_of_m)) - jnp.outer(mf, mp)
 
-        ms, Ps = _gaussian_smoother_shared(D.T, mf, Pf, mp, Pp, ms, Ps)
+        ms, Ps = _gaussian_smoother_common(D.T, mf, Pf, mp, Pp, ms, Ps)
         return (ms, Ps), (ms, Ps)
 
     _, (mss, Pss) = jax.lax.scan(scan_sgp_smoother, (mfs[-1], Pfs[-1]), (mfs[:-1], Pfs[:-1]), reverse=True)
@@ -516,7 +567,7 @@ def cd_sgp_filter(a: Callable, b: jnp.ndarray,
     vectorised_drift = jax.vmap(a, in_axes=[0])
 
     def odes(m, P):
-        return _cd_sgp_shared(sgps, vectorised_drift, b, m, P)
+        return _cd_sgp_common(sgps, vectorised_drift, b, m, P)
 
     def scan_body(carry, elem):
         mf, Pf, n_ell = carry
@@ -566,7 +617,7 @@ def cd_sgp_smoother(a: Callable, b: jnp.ndarray,
         c, low = jax.scipy.linalg.cho_factor(Pf)
         G = jax.scipy.linalg.cho_solve((c, low), gamma)
 
-        _m, _P = _cd_sgp_shared(sgps, vectorised_drift, b, m, P)
+        _m, _P = _cd_sgp_common(sgps, vectorised_drift, b, m, P)
         return _m + G.T @ (m - mf), _P + G.T @ P + P @ G - 2 * gamma
 
     def scan_body(carry, elem):

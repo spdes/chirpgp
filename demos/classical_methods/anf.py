@@ -24,6 +24,7 @@ true_freq_func, true_phase_func = meow_freq(offset=8.)
 for mag in [constant_mag(1.),
             damped_exp_mag(0.3),
             random_ou_mag(1., 1., subkey)]:
+
     # Generate chirp
     true_chirp = gen_chirp_envelope(ts, mag, true_phase_func, 0.)
 

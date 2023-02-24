@@ -23,7 +23,7 @@ This module implements a few classical methods for estimating instantaneous freq
 
 Notes
 -----
-Most of the scipy.signal functions are not supported by jax.
+Most of the scipy.signal functions are not supported by jax, so many here use numpy implementations.
 """
 import math
 import jax
@@ -32,7 +32,6 @@ import jax.numpy as jnp
 import jaxopt
 import numpy as np
 import scipy.signal
-from chirpgp.models import jndarray
 from chirpgp.toymodels import gen_chirp
 from chirpgp.gauss_newton import gauss_newton, levenberg_marquardt
 from functools import partial
@@ -42,6 +41,8 @@ __all__ = ['hilbert_method',
            'mean_power_spectrum',
            'mle_polynomial',
            'adaptive_notch_filter']
+
+jndarray = jnp.ndarray
 
 
 def hilbert_method(ts: np.ndarray, ys: np.ndarray, *args, **kwargs) -> np.ndarray:

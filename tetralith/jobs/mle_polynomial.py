@@ -32,7 +32,7 @@ for mc in range(num_mcs):
         Xi = 0.1
         ys = true_chirp + math.sqrt(Xi) * jax.random.normal(key_for_measurements, shape=(ts.size,))
 
-        # See `init_poly_coeffs.m` in the demo folder
+        # See `init_poly_coeffs.m`
         initial_poly_coeffs = [1.,
                                7.791782e+00, 5.488218e+00, -2.723514e+01, 9.018465e+00, 1.431405e+02,
                                -2.483806e+02, 1.738925e+02, -6.028065e+01, 1.003177e+01, -5.527010e-01, -1.907047e-02]

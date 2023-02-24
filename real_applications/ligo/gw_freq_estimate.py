@@ -82,7 +82,7 @@ axs[0].fill_between(ts,
                     color='black',
                     edgecolor='none',
                     alpha=0.15,
-                    label='0.95 confidence')
+                    label='0.95 quantile')
 axs[0].set_ylabel(r'Strain $\times 10^{-21}$')
 axs[0].grid(linestyle='--', alpha=0.3, which='both')
 axs[0].legend(ncol=2, scatterpoints=5, fontsize=20)
@@ -94,7 +94,7 @@ axs[1].fill_between(ts,
                     color='black',
                     edgecolor='none',
                     alpha=0.15,
-                    label='0.95 confidence')
+                    label='0.95 quantile')
 axs[1].grid(linestyle='--', alpha=0.3, which='both')
 axs[1].set_xlabel('Time (s)')
 axs[1].set_ylabel('Frequency (Hz)')

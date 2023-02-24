@@ -153,8 +153,7 @@ def _monte_carlo_cov_of_sde(gen_trajectory: Callable[[jndarray], jndarray],
     @partial(jax.vmap, in_axes=[None, 0])
     @partial(jax.vmap, in_axes=[0, None])
     def cov_func(k1: int, k2: int):
-        r"""Cov[X(t_k1), X(t_k2)] = E[(X(t_k1) - m(t_k1)) (X(t_k2) - m(t_k2))^T] \approx MC
-        """
+        r"""Cov[X(t_k1), X(t_k2)] = E[(X(t_k1) - m(t_k1)) (X(t_k2) - m(t_k2))^T] \approx MC"""
         return jnp.sum(adhoc_vmap_outer(trajs[:, k1] - mc_means[k1], trajs[:, k2] - mc_means[k2]), axis=0) / (T - 1)
 
     ks = jnp.arange(0, T, 1)
@@ -209,3 +208,8 @@ def approx_cond_cov_chirp_sde(ts: jndarray, lam: Union[jndarray, float], b: floa
 
     key, _ = jax.random.split(key)
     return vs, _monte_carlo_cov_of_sde(gen_trajectory, T, key, num_mcs)
+
+
+def psd_chirp_sde(num_mcs: int):
+    # TODO: Apply PSD estimation then MC
+    pass
