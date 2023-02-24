@@ -5,3 +5,4 @@ jaxlib
 jaxopt
 tme>=0.1.5
 prettytable
+typing_extensions
