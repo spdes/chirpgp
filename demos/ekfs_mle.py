@@ -39,13 +39,11 @@ for mag in [constant_mag(1.),
     # From left to right, they are, lam, b, delta, ell, sigma, m0_1
     init_theta = g_inv(jnp.array([0.1, 0.1, 0.1, 1., 1., 7.]))
 
-
     # Objective function
     @jax.jit
     def obj_func(theta: jnp.ndarray):
         _, _, m_and_cov, m0, P0, H = build_chirp_model(g(theta))
         return ekf(m_and_cov, H, Xi, m0, P0, dt, ys)[-1][-1]
-
 
     # Optimise
     opt_solver = jaxopt.ScipyMinimize(method='L-BFGS-B', jit=True, fun=obj_func)
@@ -56,16 +54,13 @@ for mag in [constant_mag(1.),
     # Filtering and smoothing based on the learnt parameters
     _, _, m_and_cov, m0, P0, H = build_chirp_model(opt_params)
 
-
     @jax.jit
     def filtering(measurements):
         return ekf(m_and_cov, H, Xi, m0, P0, dt, measurements)
 
-
     @jax.jit
     def smoothing(mfs, Pfs):
         return eks(m_and_cov, mfs, Pfs, dt)
-
 
     # Trigger jit
     _dummy = filtering(jnp.ones((2,)))

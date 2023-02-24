@@ -1,5 +1,5 @@
 """
-Plot samples drawn from the chirp prior. This generates Figure 3 in the paper.
+Plot samples drawn from the chirp prior.
 """
 import jax
 import jax.numpy as jnp
@@ -51,7 +51,7 @@ for params, key, i in zip(params_all, keys, range(4)):
 
     axs[1][i].set_xlabel('$t$')
 
-axs[0][0].set_ylabel(r'Chirp sample $H \, U(t)$')
+axs[0][0].set_ylabel('Chirp sample $H \, U(t)$')
 axs[1][0].set_ylabel('Frequency sample $f(t)$')
 
 plt.tight_layout(pad=0.1)

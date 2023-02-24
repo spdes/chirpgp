@@ -7,11 +7,13 @@ import numpy.testing as npt
 import scipy.linalg
 import tme.base_jax as tme
 from chirpgp.models import g, g_inv, model_chirp, disc_chirp_lcd, disc_chirp_lcd_cond_v, disc_chirp_tme, \
-    disc_chirp_euler_maruyama, disc_m32, disc_model_lascala_lcd
+    disc_chirp_euler_maruyama, disc_m32, disc_model_lascala_lcd, model_harmonic_chirp, disc_harmonic_chirp_lcd
 from chirpgp.tools import lti_sde_to_disc
 from jax.config import config
 
 config.update("jax_enable_x64", True)
+
+np.random.seed(666)
 
 
 class TestModels:
@@ -45,7 +47,34 @@ class TestModels:
         npt.assert_allclose(scipy.linalg.expm(drift_matrix * dt), lcd_matrix)
 
         # Test cov
-        u = jnp.array([0., 0., 1., 0.])
+        u = jnp.asarray(np.random.randn(4))
+        F, Sigma = lti_sde_to_disc(drift_matrix, dispersion(u), dt)
+        npt.assert_allclose(Sigma, m_and_cov(u, dt)[1], rtol=1e-10, atol=1e-10)
+
+    @pytest.mark.parametrize('num_harmonics', [1, 2, 3])
+    def test_harmonic_chirp_models(self, num_harmonics):
+        """Test harmonic_model_chirp against lcd_chirp.
+        """
+        lam, b, ell = 1., 1., 1.
+        sigma, delta = 0.1, 0.1
+        drift, dispersion, m0, P0, H = model_harmonic_chirp(lam, b, ell, sigma, delta, num_harmonics)
+        m_and_cov = disc_harmonic_chirp_lcd(lam, b, ell, sigma, num_harmonics)
+
+        dim = num_harmonics * 2 + 2
+        dt = 0.1
+        drift_matrix = np.zeros((dim, dim))
+        lcd_matrix = np.zeros((dim, dim))
+        for i in range(dim):
+            u = np.zeros((dim,))
+            u[i] = 1.
+            drift_matrix[:, i] = drift(u)
+            lcd_matrix[:, i] = m_and_cov(u, dt)[0]
+
+        # Test mean
+        npt.assert_allclose(scipy.linalg.expm(drift_matrix * dt), lcd_matrix)
+
+        # Test cov
+        u = jnp.asarray(np.random.randn(dim))
         F, Sigma = lti_sde_to_disc(drift_matrix, dispersion(u), dt)
         npt.assert_allclose(Sigma, m_and_cov(u, dt)[1], rtol=1e-10, atol=1e-10)
 

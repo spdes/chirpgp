@@ -2,7 +2,8 @@ import pytest
 import jax
 import jax.numpy as jnp
 import numpy.testing as npt
-from chirpgp.toymodels import affine_freq, polynomial_freq, meow_freq, random_ou_mag
+from chirpgp.toymodels import affine_freq, polynomial_freq, meow_freq, random_ou_mag, gen_chirp, gen_harmonic_chirp, \
+    constant_mag
 from functools import partial
 from jax.config import config
 
@@ -53,3 +54,12 @@ class TestToyModels:
         finite_difference_freqs_from_phase = jnp.diff(phase_func(ts)) / dt
 
         npt.assert_allclose(finite_difference_freqs_from_phase, freqs, atol=1e-3, rtol=1e-3)
+
+    def test_harmonic_chirp(self):
+        dt = 0.001
+        T = 100
+        ts = jnp.linspace(dt, dt * T, T)
+
+        freq, phase = meow_freq(offset=8.)
+        npt.assert_array_equal(gen_chirp(ts, constant_mag(1.), phase),
+                               gen_harmonic_chirp(ts, [constant_mag(1.)], phase))

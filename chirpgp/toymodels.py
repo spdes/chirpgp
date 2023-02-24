@@ -18,11 +18,11 @@ Toymodels for testing chirp and IF estimation.
 """
 import math
 import jax.numpy as jnp
-from chirpgp.models import jndarray
 from chirpgp.tools import simulate_sde
 from typing import Callable, List, Union, Tuple
 
 __all__ = ['gen_chirp',
+           'gen_harmonic_chirp',
            'gen_chirp_envelope',
            'constant_mag',
            'damped_exp_mag',
@@ -30,6 +30,8 @@ __all__ = ['gen_chirp',
            'affine_freq',
            'polynomial_freq',
            'meow_freq']
+
+jndarray = jnp.ndarray
 
 
 def gen_chirp(ts: jndarray,
@@ -66,6 +68,40 @@ def gen_chirp(ts: jndarray,
     Please note the position of :math:`2 pi` in the equation above!
     """
     return magnitude_func(ts) * jnp.sin(base_phase + 2 * math.pi * phase_func(ts))
+
+
+def gen_harmonic_chirp(ts: jndarray,
+                       magnitude_funcs: List[Callable[[jndarray], jndarray]],
+                       fundamental_phase_func: Callable[[jndarray], jndarray],
+                       base_phase: float = 0.) -> jndarray:
+    r"""Generate a harmonic chirp signal of the form
+
+    .. math::
+
+        y(t) = \sum_i \alpha_i(t) \sin(\phi_0 + i 2 \pi \phi(t)),
+
+    where :math:`\alpha_i` and :math:`\phi` stands for the i-th chirp amplitude and the fundamental phase, respectively.
+
+    Parameters
+    ----------
+    ts : jnp.ndarray (T, )
+        Times.
+    magnitude_funcs : List of [Callable (T, ) -> (T, )]
+        A list of magnitude functions :math:`\alpha_i`. The size of this list determines the number of harmonics.
+    fundamental_phase_func : Callable (T, ) -> (T, )
+        The fundamental phase function :math:`\phi`.
+    base_phase : float
+        The base phase :math:`\phi_0`.
+
+    Returns
+    -------
+    jnp.ndarray
+        The chirp signal on :code:`ts`.
+    """
+    ys = jnp.array(0.)
+    for i, mag_func in enumerate(magnitude_funcs):
+        ys += mag_func(ts) * jnp.sin(base_phase + (i + 1) * 2 * math.pi * fundamental_phase_func(ts))
+    return ys
 
 
 def gen_chirp_envelope(ts: jndarray,

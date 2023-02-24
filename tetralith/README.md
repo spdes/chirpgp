@@ -17,4 +17,5 @@ the results right away by running the scripts in `../paper_plots_tables`.
 
 - `generate_rndkeys.py`: Generate 1000 independent random seeds for the Monte Carlo runs. Seeds are saved
   in `rnd_keys.npy`.
+- `generate_chirp_for_matlab.py` and `generate_harmonic_chirp_for_matlab.py`. The FHC method is implemented in Matlab. To use it, we need to convert the generated measurements to matlab.
 - `setup_env.sh`: Setup Python (anaconda) venv in Tetralith.

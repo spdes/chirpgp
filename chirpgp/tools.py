@@ -15,7 +15,6 @@
 
 import jax.numpy as jnp
 import jax.scipy
-from chirpgp.models import jndarray
 from functools import partial
 from typing import Tuple, Callable, Union
 
@@ -26,6 +25,8 @@ __all__ = ['lti_sde_to_disc',
            'fwd_transformed_pdf',
            'chol_partial_const_diag',
            'rmse']
+
+jndarray = jnp.ndarray
 
 
 def _smart_outer(z: jndarray):
@@ -149,6 +150,30 @@ def simulate_sde(m_and_cov: Callable[[jndarray, float], Tuple[jndarray, jndarray
     dim = m0.size
 
     x0 = m0 + jax.scipy.linalg.cholesky(P0, lower=True) @ jax.random.normal(key=key, shape=(dim,))
+
+    key, _ = jax.random.split(key)
+    dws = jax.random.normal(key=key, shape=(T, dim))
+
+    def scan_body(carry, elem):
+        x = carry
+        dw = elem
+
+        m, cov = m_and_cov(x, dt)
+        if const_diag_cov:
+            chol = jnp.sqrt(cov)
+        else:
+            chol = jnp.linalg.cholesky(cov)
+        x = m + chol @ dw
+        return x, x
+
+    _, traj = jax.lax.scan(scan_body, x0, dws)
+    return traj
+
+
+def simulate_sde_init(m_and_cov: Callable[[jndarray, float], Tuple[jndarray, jndarray]],
+                      x0: jndarray, dt: float, T: int, key: jndarray,
+                      const_diag_cov: bool = False) -> jndarray:
+    dim = x0.shape[0]
 
     key, _ = jax.random.split(key)
     dws = jax.random.normal(key=key, shape=(T, dim))

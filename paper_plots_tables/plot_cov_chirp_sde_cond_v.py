@@ -1,5 +1,5 @@
 """
-Plot the covariance function of chirp SDE. This generates Figure 2 in the paper.
+Plot the covariance function of chirp SDE
 """
 import jax
 import jax.numpy as jnp

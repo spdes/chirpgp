@@ -20,8 +20,10 @@ This implementation is a bit ad-hoc to this package, please refer to that of `ja
 """
 import jax
 import jax.numpy as jnp
-from chirpgp.models import jndarray
 from typing import Tuple, Callable
+
+
+jndarray = jnp.ndarray
 
 
 def _common_iterative_loop(update_func: Callable[[jndarray, float], Tuple[jndarray, float]],

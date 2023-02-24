@@ -54,6 +54,7 @@ class TestFiltersSmoothers:
 
             return jnp.asarray(xx), jnp.asarray(yy)
 
+        @jax.jit
         def m_and_cov(u, _):
             return F @ u, Sigma
 
@@ -69,8 +70,8 @@ class TestFiltersSmoothers:
         for i in range(3):
             npt.assert_allclose(kf_results[i], ekf_results[i])
             npt.assert_allclose(kf_results[i], ghkf_results[i])
-            npt.assert_allclose(kf_results[i], cd_ekf_results[i], rtol=1e-6)
-            npt.assert_allclose(kf_results[i], cd_ghkf_results[i], rtol=1e-6)
+            npt.assert_allclose(kf_results[i], cd_ekf_results[i], rtol=1e-5)
+            npt.assert_allclose(kf_results[i], cd_ghkf_results[i], rtol=1e-5)
 
         rts_results = rts(F, Sigma, kf_results[0], kf_results[1])
         eks_results = eks(m_and_cov, ekf_results[0], ekf_results[1], dt)

@@ -8,11 +8,12 @@ The preprint is available at [http://arxiv.org/abs/2205.06306](http://arxiv.org/
 Please cite as follows to use the codes.
 
 ```bibtex
-@article{ZhaoZheng2022Chirp,
-	title = {Probabilistic Estimation of Chirp Instantaneous Frequency Using {G}aussian Processes},
-	journal = {arXiv preprint arXiv:2205.06306},
+@article{ZhaoZheng2023Chirp,
+	title = {Probabilistic Estimation of Instantaneous Frequencies of Chirp Signals},
+	journal = {IEEE Transactions on Signal Processing},
 	author = {Zheng Zhao and Simo S\"{a}rkk\"{a} and Jens Sj\"{o}lund and Thomas B. Sch\"{o}n},
-	year = {2022}
+	year = {2023}, 
+	note = {In press}
 }
 ```
 
@@ -40,7 +41,8 @@ following commands to install our `chirpgp` package:
 
 1. `git clone git@github.com:spdes/chirpgp.git`
 2. `cd chirpgp`
-3. `python setup.py install` or `python setup.py develop`
+3. `pip install -r requirements.txt`
+4. `python setup.py install` or `python setup.py develop`
 
 # Examples
 
