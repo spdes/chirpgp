@@ -1,7 +1,7 @@
 # Probabilistic chirp instantaneous frequency estimation using Gaussian processes
 [![UnitTest](https://github.com/spdes/chirpgp/actions/workflows/unittest.yml/badge.svg)](https://github.com/spdes/chirpgp/actions/workflows/unittest.yml)
 
-Companion implementation of the paper "Probabilistic Estimation of Chirp Instantaneous Frequency Using Gaussian Processes".
+Companion implementation of the paper "Probabilistic Estimation of Instantaneous Frequencies of Chirp Signals".
 
 The preprint is available at [http://arxiv.org/abs/2205.06306](http://arxiv.org/abs/2205.06306).
 
@@ -27,7 +27,7 @@ $$
 
 In the equation above, $\phi_0$ stands for the initial phase, $\xi_k$ is a Gaussian noise, $Y_k$ stands for the noisy chirp measurement at time $t_k$, and $f$ is the instantaneous frequency function that we aim to estimate. Importantly, we would like to estimate $f$ in terms of posterior distribution.
 
-The idea is to put priors on both $f$ and the chirp signal jointly by using a class of non-linear stochastic differential equations -- which gives some condtional Gaussian processes. This leads to a non-linear state-space model in which we can estimate the posterior distribution by using stochastic filters and smoothers (e.g., EKFS, UKFS).
+The idea is to put priors on both $f$ and the chirp signal jointly by using a class of non-linear stochastic differential equations -- which gives some conditional Gaussian processes. This leads to a non-linear state-space model in which we can estimate the posterior distribution by using stochastic filters and smoothers (e.g., EKFS).
 
 To have a sense how well this method works, please see the following example figure taken from the paper.
 
@@ -73,6 +73,7 @@ in `./chirpgp/filters_smoothers.py`. It supports:
 - Extended Kalman filter and smoother in discrete time and continuous-discrete time.
 - Sigma-points filters and smoothers in discrete time and continuous-discrete time. Supports Gauss--Hermite and
   spherical cubature sigma points, and the 4th-order Runge--Kutta integration.
+- Posterior Cramér--Rao lower bound.
 
 # Contact
 
