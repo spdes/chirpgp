@@ -1,12 +1,12 @@
 import pytest
 import math
+import jax
 import jax.numpy as jnp
 import numpy.testing as npt
 from chirpgp.tools import lti_sde_to_disc
 from chirpgp.models import _m32_solution
-from jax.config import config
 
-config.update("jax_enable_x64", True)
+jax.config.update("jax_enable_x64", True)
 
 
 class TestM32:

@@ -10,9 +10,8 @@ import matplotlib.pyplot as plt
 from chirpgp.models import g
 from chirpgp.quadratures import gaussian_expectation
 from chirpgp.toymodels import meow_freq, gen_harmonic_chirp, constant_mag, damped_exp_mag, random_ou_mag
-from jax.config import config
 
-config.update("jax_enable_x64", True)
+jax.config.update("jax_enable_x64", True)
 
 # mc = 11
 mc = 17

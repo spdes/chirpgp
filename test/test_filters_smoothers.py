@@ -8,9 +8,8 @@ import numpy.testing as npt
 from chirpgp.filters_smoothers import kf, rts, ekf, eks, cd_ekf, cd_eks, \
     sgp_filter, sgp_smoother, cd_sgp_filter, cd_sgp_smoother
 from chirpgp.quadratures import SigmaPoints
-from jax.config import config
 
-config.update("jax_enable_x64", True)
+jax.config.update("jax_enable_x64", True)
 
 np.random.seed(666)
 

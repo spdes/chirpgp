@@ -1,12 +1,12 @@
 """
 Plot the covariance function of harmonic SDE. This generated Figure 2 in the paper.
 """
+import jax
 import jax.numpy as jnp
 import matplotlib.pyplot as plt
 from chirpgp.cov_funcs import vmap_cov_harmonic_sde
-from jax.config import config
 
-config.update("jax_enable_x64", True)
+jax.config.update("jax_enable_x64", True)
 
 # Times
 dt = 0.01

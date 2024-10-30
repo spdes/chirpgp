@@ -9,9 +9,8 @@ import matplotlib.pyplot as plt
 from chirpgp.models import g, g_inv, build_chirp_model
 from chirpgp.filters_smoothers import sgp_filter, sgp_smoother
 from chirpgp.quadratures import gaussian_expectation, SigmaPoints
-from jax.config import config
 
-config.update("jax_enable_x64", True)
+jax.config.update("jax_enable_x64", True)
 
 # Load gravitational wave strain data. Please download them by yourself, see README.md
 ts, ys = jnp.asarray(np.genfromtxt('./data/fig1-observed-H.txt').T)

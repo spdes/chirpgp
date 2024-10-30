@@ -5,9 +5,8 @@ import numpy as np
 import chirpgp.tools
 from chirpgp.classical_methods import adaptive_notch_filter
 from chirpgp.toymodels import gen_chirp_envelope, meow_freq, constant_mag, damped_exp_mag, random_ou_mag
-from jax.config import config
 
-config.update("jax_enable_x64", True)
+jax.config.update("jax_enable_x64", True)
 
 # Times
 dt = 0.001

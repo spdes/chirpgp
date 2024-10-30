@@ -20,6 +20,7 @@ import math
 import jax
 import jax.numpy as jnp
 import numpy as np
+import scipy
 from chirpgp.models import g
 from typing import Callable, NamedTuple, Union, List, Tuple
 from functools import partial
@@ -172,7 +173,7 @@ class SigmaPoints(NamedTuple):
 
         w_1d = np.zeros(shape=(order,))
         for i in range(order):
-            w_1d[i] = (2 ** (order - 1) * np.math.factorial(order) * np.sqrt(np.pi) /
+            w_1d[i] = (2 ** (order - 1) * scipy.special.factorial(order) * np.sqrt(np.pi) /
                        (order ** 2 * (np.polyval(hermite_coeff[order - 1],
                                                  hermite_roots[i])) ** 2))
 

@@ -13,10 +13,9 @@ from chirpgp.filters_smoothers import sgp_filter, sgp_smoother
 from chirpgp.quadratures import gaussian_expectation, SigmaPoints
 from chirpgp.toymodels import gen_chirp, meow_freq, constant_mag, damped_exp_mag, random_ou_mag
 from chirpgp.tools import rmse
-from jax.config import config
 
 # Use float64
-config.update("jax_enable_x64", True)
+jax.config.update("jax_enable_x64", True)
 
 # Time interval, number of times, and time instances.
 dt = 0.001

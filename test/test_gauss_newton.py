@@ -3,9 +3,8 @@ import jax
 import jax.numpy as jnp
 import numpy.testing as npt
 from chirpgp.gauss_newton import gauss_newton, levenberg_marquardt
-from jax.config import config
 
-config.update("jax_enable_x64", True)
+jax.config.update("jax_enable_x64", True)
 
 
 class TestOptimisers:

@@ -26,9 +26,8 @@ import matplotlib.pyplot as plt
 from chirpgp.models import g, build_harmonic_chirp_model
 from chirpgp.filters_smoothers import sgp_filter, sgp_smoother
 from chirpgp.quadratures import gaussian_expectation, SigmaPoints
-from jax.config import config
 
-config.update("jax_enable_x64", True)
+jax.config.update("jax_enable_x64", True)
 
 # Load data
 fs, sound = scipy.io.wavfile.read('./Eptesicus_nilssonii_1_o.wav')

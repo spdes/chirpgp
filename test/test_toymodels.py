@@ -5,9 +5,8 @@ import numpy.testing as npt
 from chirpgp.toymodels import affine_freq, polynomial_freq, meow_freq, random_ou_mag, gen_chirp, gen_harmonic_chirp, \
     constant_mag
 from functools import partial
-from jax.config import config
 
-config.update("jax_enable_x64", True)
+jax.config.update("jax_enable_x64", True)
 
 
 class TestToyModels:

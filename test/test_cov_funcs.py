@@ -1,11 +1,11 @@
+import jax
 import math
 import pytest
 import jax.numpy as jnp
 import numpy.testing as npt
 from chirpgp.cov_funcs import vmap_cov_harmonic_sde, vmap_marginal_cov_harmonic_sde
-from jax.config import config
 
-config.update("jax_enable_x64", True)
+jax.config.update("jax_enable_x64", True)
 
 
 class TestCovFuncs:

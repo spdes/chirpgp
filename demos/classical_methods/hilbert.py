@@ -6,9 +6,8 @@ import matplotlib.pyplot as plt
 from chirpgp.classical_methods import hilbert_method
 from chirpgp.toymodels import gen_chirp, meow_freq, constant_mag, damped_exp_mag, random_ou_mag
 from chirpgp.tools import rmse
-from jax.config import config
 
-config.update("jax_enable_x64", True)
+jax.config.update("jax_enable_x64", True)
 
 # Times
 dt = 0.001

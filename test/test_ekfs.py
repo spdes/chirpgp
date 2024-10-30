@@ -4,11 +4,9 @@ import jax.numpy as jnp
 from chirpgp.filters_smoothers import ekf, eks, cd_ekf, cd_eks
 from chirpgp.tools import simulate_sde
 import tme.base_jax as tme
-# import matplotlib.pyplot as plt
 import numpy.testing as npt
-from jax.config import config
 
-config.update("jax_enable_x64", True)
+jax.config.update("jax_enable_x64", True)
 
 dim_x = 3
 kappa = 10.

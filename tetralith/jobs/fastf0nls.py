@@ -16,11 +16,10 @@ import scipy
 import chirpgp.tools
 import matplotlib.pyplot as plt
 from ctypes import c_void_p, c_double, c_int
-from jax.config import config
 
 from chirpgp.toymodels import meow_freq, constant_mag, gen_harmonic_chirp, damped_exp_mag, random_ou_mag, gen_chirp
 
-config.update("jax_enable_x64", True)
+jax.config.update("jax_enable_x64", True)
 
 libpath = os.path.dirname(os.path.realpath(__file__)) + "/../../others/fastF0Nls/cpp/lib/single_pitch.so"
 lib = ctypes.cdll.LoadLibrary(libpath)

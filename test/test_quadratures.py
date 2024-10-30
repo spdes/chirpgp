@@ -1,11 +1,11 @@
 import math
+import jax
 import jax.numpy as jnp
 import numpy.testing as npt
 from chirpgp.quadratures import SigmaPoints
 from jax import vmap
-from jax.config import config
 
-config.update("jax_enable_x64", True)
+jax.config.update("jax_enable_x64", True)
 
 d = 1
 gh_order = 5

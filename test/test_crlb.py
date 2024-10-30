@@ -8,9 +8,8 @@ import numpy.testing as npt
 from chirpgp.filters_smoothers import kf, rts
 from chirpgp.models import posterior_cramer_rao
 from chirpgp.tools import lti_sde_to_disc
-from jax.config import config
 
-config.update("jax_enable_x64", True)
+jax.config.update("jax_enable_x64", True)
 
 np.random.seed(666)
 

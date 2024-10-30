@@ -7,9 +7,8 @@ import matplotlib.pyplot as plt
 from chirpgp.tools import simulate_sde
 from chirpgp.models import model_chirp, disc_chirp_lcd
 from chirpgp.models import g
-from jax.config import config
 
-config.update("jax_enable_x64", True)
+jax.config.update("jax_enable_x64", True)
 
 plt.rcParams.update({
     'text.usetex': True,

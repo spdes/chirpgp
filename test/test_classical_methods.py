@@ -6,9 +6,8 @@ import jax.numpy as jnp
 import numpy.testing as npt
 from chirpgp.classical_methods import hilbert_method, mean_power_spectrum, adaptive_notch_filter, mle_polynomial
 from chirpgp.toymodels import gen_chirp, gen_chirp_envelope, affine_freq, polynomial_freq, constant_mag
-from jax.config import config
 
-config.update("jax_enable_x64", True)
+jax.config.update("jax_enable_x64", True)
 
 
 class TestClassicalMethods:

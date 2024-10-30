@@ -6,9 +6,8 @@ import time
 from chirpgp.models import g, g_inv, build_chirp_model
 from chirpgp.filters_smoothers import ekf, eks
 from chirpgp.toymodels import gen_chirp, meow_freq, constant_mag
-from jax.config import config
 
-config.update("jax_enable_x64", True)
+jax.config.update("jax_enable_x64", True)
 
 # Times
 dt = 0.001

@@ -9,9 +9,8 @@ import tme.base_jax as tme
 from chirpgp.models import g, g_inv, model_chirp, disc_chirp_lcd, disc_chirp_lcd_cond_v, disc_chirp_tme, \
     disc_chirp_euler_maruyama, disc_m32, disc_model_lascala_lcd, model_harmonic_chirp, disc_harmonic_chirp_lcd
 from chirpgp.tools import lti_sde_to_disc
-from jax.config import config
 
-config.update("jax_enable_x64", True)
+jax.config.update("jax_enable_x64", True)
 
 np.random.seed(666)
 

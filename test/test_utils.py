@@ -6,9 +6,8 @@ import jax.scipy
 import numpy.testing as npt
 from chirpgp.tools import simulate_lgssm, lti_sde_to_disc, fwd_transformed_pdf, chol_partial_const_diag, rmse
 from chirpgp.quadratures import gaussian_expectation
-from jax.config import config
 
-config.update("jax_enable_x64", True)
+jax.config.update("jax_enable_x64", True)
 
 
 class TestUtils:

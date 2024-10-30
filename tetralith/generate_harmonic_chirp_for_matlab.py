@@ -9,9 +9,8 @@ import jax.numpy as jnp
 import numpy as np
 from scipy.io import savemat
 from chirpgp.toymodels import gen_harmonic_chirp, meow_freq, constant_mag, damped_exp_mag, random_ou_mag
-from jax.config import config
 
-config.update("jax_enable_x64", True)
+jax.config.update("jax_enable_x64", True)
 
 # Times
 dt = 0.001

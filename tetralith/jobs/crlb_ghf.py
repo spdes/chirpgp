@@ -11,9 +11,8 @@ from functools import partial
 from chirpgp.models import model_chirp, disc_chirp_lcd
 from chirpgp.quadratures import SigmaPoints
 from chirpgp.filters_smoothers import sgp_filter
-from jax.config import config
 
-config.update("jax_enable_x64", True)
+jax.config.update("jax_enable_x64", True)
 
 parser = argparse.ArgumentParser(description='Parameters')
 parser.add_argument('-lam', type=float, help='lam')
